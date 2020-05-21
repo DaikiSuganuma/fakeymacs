@@ -266,11 +266,13 @@ def configure(keymap):
 
     # Ctl-xプレフィックスキーに使うキーを指定する
     # （Ctl-xプレフィックスキーのモディファイアキーは、Ctrl または Alt のいずれかから指定してください）
-    ctl_x_prefix_key = "C-x"
+    #ctl_x_prefix_key = "C-x"
+    ctl_x_prefix_key = "A-x"
 
     # スクロールに使うキーの組み合わせ（Up、Down の順）を指定する
     # scroll_key = None # PageUp、PageDownキーのみを利用する
-    scroll_key = ["M-v", "C-v"]
+    #scroll_key = ["M-v", "C-v"]
+    scroll_key = None
 
     # Emacs日本語入力モードを使うかどうかを指定する（True: 使う、False: 使わない）
     use_emacs_ime_mode = True
@@ -284,9 +286,10 @@ def configure(keymap):
 
     # IME をトグルで切り替えるキーを指定する（複数指定可）
     toggle_input_method_key  = []
-    toggle_input_method_key += ["C-Yen"]
-    toggle_input_method_key += ["C-o"]
+    #toggle_input_method_key += ["C-Yen"]
+    #toggle_input_method_key += ["C-o"]
     # toggle_input_method_key += ["O-LAlt"]
+    toggle_input_method_key += ["A-Esc"]
 
     #---------------------------------------------------------------------------------------------------
     # IME を切り替えるキーの組み合わせ（disable、enable の順）を指定する（複数指定可）
@@ -910,6 +913,9 @@ def configure(keymap):
     def newline_and_indent():
         self_insert_command("Enter", "Tab")()
 
+    def insert_newline():
+        self_insert_command("Enter", "Up", "End")()
+
     def indent_for_tab_command():
         self_insert_command("Tab")()
 
@@ -1314,7 +1320,7 @@ def configure(keymap):
     define_key(keymap_emacs, "C-e",        reset_search(reset_undo(reset_counter(mark(move_end_of_line, True)))))
     define_key(keymap_emacs, "M-S-Comma",  reset_search(reset_undo(reset_counter(mark(beginning_of_buffer, False)))))
     define_key(keymap_emacs, "M-S-Period", reset_search(reset_undo(reset_counter(mark(end_of_buffer, True)))))
-    define_key(keymap_emacs, "C-l",        reset_search(reset_undo(reset_counter(recenter))))
+    #define_key(keymap_emacs, "C-l",        reset_search(reset_undo(reset_counter(recenter))))
 
     if not use_emacs_shift_mode:
         define_key(keymap_emacs, "C-S-b", reset_search(reset_undo(reset_counter(mark2(repeat(backward_char), False)))))
@@ -1358,7 +1364,7 @@ def configure(keymap):
     define_key(keymap_emacs, "M-Delete", reset_search(reset_undo(reset_counter(reset_mark(repeat3(backward_kill_word))))))
     define_key(keymap_emacs, "M-d",      reset_search(reset_undo(reset_counter(reset_mark(repeat3(kill_word))))))
     define_key(keymap_emacs, "C-k",      reset_search(reset_undo(reset_counter(reset_mark(repeat3(kill_line))))))
-    define_key(keymap_emacs, "C-w",      reset_search(reset_undo(reset_counter(reset_mark(kill_region)))))
+    #define_key(keymap_emacs, "C-w",      reset_search(reset_undo(reset_counter(reset_mark(kill_region)))))
     define_key(keymap_emacs, "M-w",      reset_search(reset_undo(reset_counter(reset_mark(kill_ring_save)))))
     define_key(keymap_emacs, "C-y",      reset_search(reset_undo(reset_counter(reset_mark(repeat(yank))))))
     define_key(keymap_emacs, "C-Slash",  reset_search(reset_counter(reset_mark(undo))))
@@ -1386,7 +1392,7 @@ def configure(keymap):
         # C-S-2 は有効とならないが、一応設定は行っておく（C-S-3 などは有効となる。なぜだろう？）
         define_key(keymap_emacs, "C-S-2", reset_search(reset_undo(reset_counter(set_mark_command))))
 
-    define_key(keymap_emacs, "C-Space",   reset_search(reset_undo(reset_counter(set_mark_command))))
+    #define_key(keymap_emacs, "C-Space",   reset_search(reset_undo(reset_counter(set_mark_command))))
     define_key(keymap_emacs, "Ctl-x h",   reset_search(reset_undo(reset_counter(mark_whole_buffer))))
     define_key(keymap_emacs, "Ctl-x C-p", reset_search(reset_undo(reset_counter(mark_page))))
 
@@ -1398,7 +1404,7 @@ def configure(keymap):
 
     ## 「文字列検索 / 置換」のキー設定
     define_key(keymap_emacs, "C-r",   reset_undo(reset_counter(reset_mark(isearch_backward))))
-    define_key(keymap_emacs, "C-s",   reset_undo(reset_counter(reset_mark(isearch_forward))))
+    #define_key(keymap_emacs, "C-s",   reset_undo(reset_counter(reset_mark(isearch_forward))))
     define_key(keymap_emacs, "M-S-5", reset_search(reset_undo(reset_counter(reset_mark(query_replace)))))
 
     ## 「キーボードマクロ」のキー設定
@@ -1415,6 +1421,7 @@ def configure(keymap):
     define_key(keymap_emacs, "Enter",     reset_undo(reset_counter(reset_mark(repeat(newline)))))
     define_key(keymap_emacs, "C-m",       reset_undo(reset_counter(reset_mark(repeat(newline)))))
     define_key(keymap_emacs, "C-j",       reset_undo(reset_counter(reset_mark(newline_and_indent))))
+    define_key(keymap_emacs, "C-o",       reset_undo(reset_counter(reset_mark(insert_newline))))
     define_key(keymap_emacs, "Tab",       reset_undo(reset_counter(reset_mark(repeat(indent_for_tab_command)))))
     define_key(keymap_emacs, "C-g",       reset_search(reset_counter(reset_mark(keyboard_quit))))
     define_key(keymap_emacs, "Ctl-x C-c", reset_search(reset_undo(reset_counter(reset_mark(kill_emacs)))))
