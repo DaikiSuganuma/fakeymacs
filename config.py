@@ -222,6 +222,9 @@ def configure(keymap):
                             "TurboVNC.exe",           # TurboVNC
                             "vncviewer.exe",          # UltraVNC
                             "vncviewer64.exe",        # UltraVNC
+                            "Acrobat.exe",            # Acrobat
+                            "Illustrator.exe",        # Illustrator
+                            "Photoshop.exe",          # Photoshop
                            ]
 
     # IME の切り替え“のみをしたい”アプリケーションソフトを指定する
@@ -259,7 +262,7 @@ def configure(keymap):
     side_of_alt_key = "L"
 
     # C-iキーを Tabキーとして使うかどうかを指定する（True: 使う、False: 使わない）
-    use_ctrl_i_as_tab = True
+    use_ctrl_i_as_tab = False
 
     # Escキーを Metaキーとして使うかどうかを指定する（True: 使う、False: 使わない）
     use_esc_as_meta = False
@@ -404,9 +407,9 @@ def configure(keymap):
     # アクティブウィンドウをディスプレイ間で移動するキーの組み合わせ（前、後 の順）を指定する（複数指定可）
     # （other_window_key に割り当てている A-o との連係した利用を想定し、A-S-o も割り当てています）
     # （デフォルトキーは、["W-S-Left", "W-S-Right"]）
-    # window_movement_key = None # Single display
+    window_movement_key = None # Single display
     # window_movement_key = [["A-S-b", "A-S-f"], ["A-S-Left", "A-S-Right"]] # Multi-display
-    window_movement_key = [[None, "A-S-o"]] # Multi-display
+    # window_movement_key = [[None, "A-S-o"]] # Multi-display
 
     # ウィンドウを最小化、リストアするキーの組み合わせ（リストア、最小化 の順）を指定する（複数指定可）
     # window_minimize_key = None
@@ -806,6 +809,9 @@ def configure(keymap):
 
     def open_line():
         self_insert_command("Enter", "Up", "End")()
+
+    def select_word():
+        self_insert_command("C-Left", "C-S-Right")()
 
     ##################################################
     ## バッファ / ウィンドウ操作
@@ -1365,6 +1371,7 @@ def configure(keymap):
     define_key(keymap_emacs, "M-d",      reset_search(reset_undo(reset_counter(reset_mark(repeat3(kill_word))))))
     define_key(keymap_emacs, "C-k",      reset_search(reset_undo(reset_counter(reset_mark(repeat3(kill_line))))))
     #define_key(keymap_emacs, "C-w",      reset_search(reset_undo(reset_counter(reset_mark(kill_region)))))
+    define_key(keymap_emacs, "C-w",      reset_search(reset_undo(reset_counter(reset_mark(select_word)))))
     define_key(keymap_emacs, "M-w",      reset_search(reset_undo(reset_counter(reset_mark(kill_ring_save)))))
     define_key(keymap_emacs, "C-y",      reset_search(reset_undo(reset_counter(reset_mark(repeat(yank))))))
     define_key(keymap_emacs, "C-Slash",  reset_search(reset_counter(reset_mark(undo))))
@@ -1395,6 +1402,7 @@ def configure(keymap):
     #define_key(keymap_emacs, "C-Space",   reset_search(reset_undo(reset_counter(set_mark_command))))
     define_key(keymap_emacs, "Ctl-x h",   reset_search(reset_undo(reset_counter(mark_whole_buffer))))
     define_key(keymap_emacs, "Ctl-x C-p", reset_search(reset_undo(reset_counter(mark_page))))
+    define_key(keymap_emacs, "M-a",       reset_search(reset_undo(reset_counter(mark_whole_buffer))))
 
     ## 「バッファ / ウィンドウ操作」のキー設定
     define_key(keymap_emacs, "Ctl-x k", reset_search(reset_undo(reset_counter(reset_mark(kill_buffer)))))
@@ -2131,7 +2139,7 @@ def configure(keymap):
     ####################################################################################################
     ## C-Enter に F2（編集モード移行）を割り当てる（オプション）
     ####################################################################################################
-    if 0:
+    if 1:
         edit_mode_target = [["EXCEL.EXE",    "EXCEL*"],
                             ["explorer.exe", "DirectUIHWND"]]
 
@@ -2144,6 +2152,7 @@ def configure(keymap):
         keymap_edit_mode = keymap.defineWindowKeymap(check_func=is_edit_mode_target)
 
         define_key(keymap_edit_mode, "C-Enter", reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("F2"))))))
+        define_key(keymap_edit_mode, "C-2", reset_search(reset_undo(reset_counter(reset_mark(self_insert_command("F2"))))))
 
 
     ####################################################################################################
