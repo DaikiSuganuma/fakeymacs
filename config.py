@@ -225,6 +225,7 @@ def configure(keymap):
                             "Acrobat.exe",            # Acrobat
                             "Illustrator.exe",        # Illustrator
                             "Photoshop.exe",          # Photoshop
+                            "InDesign.exe",           # InDesign
                            ]
 
     # IME の切り替え“のみをしたい”アプリケーションソフトを指定する
