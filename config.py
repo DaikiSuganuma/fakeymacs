@@ -226,7 +226,9 @@ def configure(keymap):
                             "Illustrator.exe",        # Illustrator
                             "Photoshop.exe",          # Photoshop
                             "InDesign.exe",           # InDesign
-                           ]
+                            "phpstorm.exe",           # PHPStorm
+                            "phpstorm64.exe",         # PHPStorm
+                            ]
 
     # IME の切り替え“のみをしたい”アプリケーションソフトを指定する
     # （指定できるアプリケーションソフトは、not_emacs_target で（除外）指定したものからのみとなります）
@@ -282,8 +284,8 @@ def configure(keymap):
     use_emacs_ime_mode = True
 
     # Emacs日本語入力モードが有効なときに表示するバルーンメッセージを指定する
-    # emacs_ime_mode_balloon_message = None
-    emacs_ime_mode_balloon_message = "▲"
+    emacs_ime_mode_balloon_message = None
+    # emacs_ime_mode_balloon_message = "▲"
 
     # Emacsシフトモードを使うかどうかを指定する（True: 使う、False: 使わない）
     use_emacs_shift_mode = False
